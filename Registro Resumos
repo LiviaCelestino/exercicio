@@ -1,0 +1,61 @@
+public class RegistroResumos {
+	private int numeroDeResumos;
+	private String tema;
+	private String resumo;
+	private int contador;
+	private Resumo[] resumos; 
+	
+	
+	//CONSTRUTOR 
+	public RegistroResumos(int numeroDeResumos) {
+		this.numeroDeResumos = numeroDeResumos;
+		this.contador = 0;
+		this.resumos = new Resumo[numeroDeResumos];
+	}
+	public void adiciona(String tema, String resumo) {
+		this.tema = tema;
+		this.resumo = resumo;
+		this.resumos[contador % numeroDeResumos] = new Resumo(tema, resumo);
+		this.contador += 1;
+		
+		
+	}
+	public String[] pegaResumos() {
+		int qtd;
+		if(contador >= numeroDeResumos) {
+			qtd = numeroDeResumos;
+		} else {
+			qtd = contador;
+		}
+		String[] arrayResumos = new String[qtd];
+		for(int k = 0; k < qtd; k++) {
+			arrayResumos[k] = resumos[k].toString();
+		}
+		return arrayResumos;
+	}
+	public String concatenaTemas() {
+		StringBuilder builder = new StringBuilder();
+		for(int l = 0; l < conta(); l++) {
+			builder.append(resumos[l].getTema());
+			if (l < this.conta() - 1) {
+				builder.append(" | ");
+			}
+		}
+		return builder.toString();
+	}
+	public String imprimeResumos() {
+		StringBuilder imprime = new StringBuilder();
+		return imprime.append("- ").append(conta()).append(" resumo(s) cadastrado(s)\n-").append(concatenaTemas()).toString();
+	}
+	public int conta() {
+		return Math.min(numeroDeResumos, contador);
+	}
+	public boolean temResumo(String tema) {
+		for(int j = 0; j < this.conta(); j++) {
+			if(resumos[j].getTema().equals(tema)) {
+				return true;
+			}
+		}
+		return false;
+	}
+}
